@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script>
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('theme');
+          if (stored === 'dark') document.documentElement.dataset.theme = 'dark';
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Hamza Waqas · Aerospace Engineering portfolio</title>
+    <meta
+      name="description"
+      content="Final-year Aerospace Engineering student. Spacecraft attitude control, supersonic CFD, sensor detection systems and Formula Student chassis design, with interactive demos."
+    />
+    <meta name="theme-color" content="#e4e8e3" />
+
+    <!-- Open Graph. TODO: add /og.png (1200x630) and set the canonical URL
+         once the site has a domain. -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Hamza Waqas · Aerospace Engineering portfolio"
+    />
+    <meta
+      property="og:description"
+      content="Spacecraft attitude control, supersonic CFD, sensor detection systems and Formula Student chassis design."
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

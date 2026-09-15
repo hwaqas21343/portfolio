@@ -1,0 +1,28 @@
+.header {
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.header > * + * {
+  margin-top: var(--s-2);
+}
+
+.header :global(.eyebrow) {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--r-sm);
+  background: var(--acid);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--acid-deep);
+}
+
+.title {
+  max-width: 24ch;
+}
+
+.lede {
+  max-width: var(--measure);
+  color: var(--fg-dim);
+  font-size: 0.95rem;
+  margin-top: var(--s-3);
+}
