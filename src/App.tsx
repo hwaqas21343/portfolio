@@ -4,13 +4,13 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Resume from './pages/Resume';
+import AiTransparency from './pages/AiTransparency';
 import Projects from './pages/Projects';
 import AdcsSimulator from './pages/projects/AdcsSimulator';
 import Cage from './pages/projects/Cage';
 import Overseer from './pages/projects/Overseer';
 import FormulaStudent from './pages/projects/FormulaStudent';
 import GasTurbineMl from './pages/projects/GasTurbineMl';
-import PortfolioSite from './pages/projects/PortfolioSite';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -21,6 +21,7 @@ export default function App() {
         <Route path="about" element={<About />} />
         <Route path="resume" element={<Resume />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="ai-transparency" element={<AiTransparency />} />
 
         <Route path="projects">
           <Route index element={<Projects />} />
@@ -29,7 +30,6 @@ export default function App() {
           <Route path="overseer" element={<Overseer />} />
           <Route path="formula-student" element={<FormulaStudent />} />
           <Route path="gas-turbine-ml" element={<GasTurbineMl />} />
-          <Route path="portfolio-site" element={<PortfolioSite />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

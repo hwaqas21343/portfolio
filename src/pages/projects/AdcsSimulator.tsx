@@ -15,7 +15,7 @@ export default function AdcsSimulator() {
             pointed the right way (at the Earth, at the Sun, at a ground
             station) is a control problem rather than a steering one. The
             Attitude Determination and Control System is the part of the
-            spacecraft that solves it: work out which way you&apos;re currently
+            spacecraft that solves it. Work out which way you&apos;re currently
             facing, compare that to where you should be facing and fire the
             actuators that close the gap.
           </p>
@@ -45,7 +45,7 @@ export default function AdcsSimulator() {
           <p>
             The simulator covers the full attitude loop, dynamics through to
             fault recovery and every stage was checked against an
-            independent source rather than trusted on sight:
+            independent source rather than trusted on sight.
           </p>
           <ul>
             <li>

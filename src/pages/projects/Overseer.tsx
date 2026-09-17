@@ -73,7 +73,7 @@ export default function Overseer() {
             Overseer&apos;s central difficulty is that low observability and
             capable ISR/AEW&amp;C sensing normally pull in opposite
             directions and the project has to be worked as one problem
-            rather than two:
+            rather than two.
           </p>
           <ul>
             <li>
@@ -94,8 +94,8 @@ export default function Overseer() {
             </li>
             <li>
               <strong>Progress.</strong> The airframe went from a
-              CFD-informed design through to a flying first prototype, and
-              flight data from that prototype is now feeding into an
+              CFD-informed design through to a flying first prototype.
+              Flight data from that prototype is now feeding into an
               updated design iteration.
             </li>
             <li>

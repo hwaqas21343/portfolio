@@ -3,8 +3,17 @@
   flex-direction: column;
   justify-content: center;
   gap: var(--s-4);
-  min-height: calc(100dvh - 88px);
+  height: calc(100vh - 88px);
+  overflow: hidden;
   padding-block: var(--s-5) var(--s-6);
+}
+
+/* JS measures whether the boot console actually fits the viewport (see
+   Home.tsx); if it doesn't, fall back to a normal scrollable page rather
+   than silently clipping the status bar. */
+.screen:not([data-fits]) {
+  height: auto;
+  overflow: visible;
 }
 
 .stage {
@@ -236,9 +245,19 @@
   color: var(--fg-dim);
 }
 
+.statusLink {
+  color: var(--teal);
+  transition: color 160ms ease;
+}
+
+.statusLink:hover {
+  color: var(--teal-deep);
+}
+
 @media (max-width: 900px) {
   .screen {
-    min-height: 0;
+    height: auto;
+    overflow: visible;
   }
 }
 

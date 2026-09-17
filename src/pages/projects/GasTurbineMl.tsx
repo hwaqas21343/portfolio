@@ -9,14 +9,14 @@ export default function GasTurbineMl() {
       summary={
         <div className="prose">
           <p>
-            Gas turbines are tightly regulated on two emissions: carbon
+            Gas turbines are tightly regulated on two emissions, carbon
             monoxide and nitrogen oxides. Both move with how the turbine is
             being run, but not in the same way or for the same reasons, so a
             model that predicts them from live sensor data has to treat them
             as genuinely separate problems rather than one shared curve.
           </p>
           <p>
-            I built this as a university coursework project: a complete
+            I built this as a university coursework project, a complete
             machine learning pipeline over a 35,499-row sensor dataset, from
             cleaning and exploratory analysis through to a held-out test
             evaluation, working to a fixed train/validation/test split set by
@@ -29,7 +29,7 @@ export default function GasTurbineMl() {
         <>
           <div className="prose">
             <p>
-              Four models were compared under a fixed split: polynomial,
+              Four models were compared under a fixed split, polynomial,
               ridge and lasso regression as baselines, then a tuned gradient
               boosting regressor. Gradient boosting won on both targets.
             </p>
@@ -75,7 +75,7 @@ export default function GasTurbineMl() {
       deepDive={
         <div className="prose">
           <p>
-            Nine tasks end to end: cleaning, exploration, feature
+            Nine tasks end to end, cleaning, exploration, feature
             engineering, four models and an evaluation on data none of the
             models had seen during training.
           </p>
@@ -114,7 +114,7 @@ export default function GasTurbineMl() {
               max depth 3, beat every baseline on both targets. Training and
               validation scores stayed close throughout, CO&apos;s R² was
               identical (0.7085) across both, which is the sign that mattered
-              most: the model generalised rather than memorised.
+              most. The model generalised rather than memorised.
             </li>
             <li>
               <strong>Held-out test.</strong> Evaluated once, on the 20%
@@ -124,7 +124,7 @@ export default function GasTurbineMl() {
             </li>
             <li>
               <strong>What it means.</strong> The two targets are driven by
-              different things: CO tracks turbine load and combustion
+              different things. CO tracks turbine load and combustion
               conditions, factors an operator can actually control, while
               NOx tracks ambient temperature, which the operator can&apos;t.
               That&apos;s the case for treating them as two problems rather

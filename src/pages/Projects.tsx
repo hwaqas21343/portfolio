@@ -10,7 +10,7 @@ export default function Projects() {
         <PageHeader
           eyebrow="Work"
           title="Projects"
-          lede="Six pieces of work spanning spacecraft control, sensing, a low-observable UAV, motorsport structures, machine learning and this site itself. Four of them you can drive yourself."
+          lede="Five pieces of work spanning spacecraft control, sensing, a low-observable UAV, motorsport structures and machine learning. Three of them you can drive yourself."
         />
 
         <ul className={styles.list}>

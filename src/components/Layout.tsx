@@ -11,6 +11,7 @@ const TITLES: Record<string, string> = {
   '/about': 'About',
   '/resume': 'Resume',
   '/contact': 'Contact',
+  '/ai-transparency': 'AI transparency',
   ...Object.fromEntries(
     PROJECTS.map((p) => [`/projects/${p.slug}`, p.title] as const),
   ),

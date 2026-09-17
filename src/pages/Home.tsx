@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import BootLines, { type BootLine } from '../components/terminal/BootLines';
@@ -39,6 +39,19 @@ export default function Home() {
   const navigate = useNavigate();
   const { time } = useClock();
   const menuRef = useRef<HTMLElement>(null);
+  const screenRef = useRef<HTMLDivElement>(null);
+  const [fits, setFits] = useState(true);
+
+  useLayoutEffect(() => {
+    const el = screenRef.current;
+    if (!el) return;
+
+    const check = () => setFits(el.scrollHeight <= el.clientHeight + 1);
+    check();
+
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const move = useCallback((delta: number) => {
     setSelected((s) => (s + delta + ENTRIES.length) % ENTRIES.length);
@@ -77,7 +90,7 @@ export default function Home() {
   }, [move, navigate, selected]);
 
   return (
-    <div className={styles.screen}>
+    <div ref={screenRef} className={styles.screen} data-fits={fits ? '' : undefined}>
       <div className={`container ${styles.stage}`}>
         <section className={styles.console}>
           <header className={styles.consoleHead}>
@@ -130,6 +143,9 @@ export default function Home() {
           <span className={styles.statusRight}>
             OPEN TO 2026 GRADUATE ROLES / MSC
           </span>
+          <Link to="/ai-transparency" className={styles.statusLink}>
+            AI transparency →
+          </Link>
         </div>
       </div>
     </div>

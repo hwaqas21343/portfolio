@@ -57,7 +57,7 @@ export default function Cage() {
         <div className="prose">
           <p>
             CAGE, Confined Aerial Geometry, is an airborne early-warning and
-            control (AEW&amp;C) system for UAVs: rather than one large radar,
+            control (AEW&amp;C) system for UAVs. Rather than one large radar,
             it&apos;s built from three radar units whose coverage overlaps, so
             a target picked up by one unit can be confirmed and tracked as it
             crosses into another&apos;s field.
@@ -100,7 +100,7 @@ export default function Cage() {
         <div className="prose">
           <p>
             The work split into three layers, firmware, fusion and the rig
-            it all had to survive contact with:
+            it all had to survive contact with.
           </p>
           <ul>
             <li>

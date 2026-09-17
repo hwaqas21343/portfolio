@@ -8,7 +8,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const { slug, title, subtitle, blurb, period, domain, stack, mode } = project;
+  const { slug, title, period, domain, mode } = project;
 
   return (
     <li>
@@ -20,23 +20,13 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
         <span className={styles.main}>
           <span className={styles.title}>{title}</span>
-          <span className={styles.subtitle}>{subtitle}</span>
-          <span className={styles.blurb}>{blurb}</span>
-
-          <span className={styles.stack}>
-            {stack.map((item) => (
-              <span key={item} className={styles.chip}>
-                {item}
-              </span>
-            ))}
-          </span>
         </span>
 
         <span className={styles.meta}>
           <span>{period}</span>
           <span>{domain}</span>
           {mode === 'interactive' ? (
-            <span className={styles.badge}>Live</span>
+            <span className={styles.badge}>Live demo</span>
           ) : null}
         </span>
       </Link>

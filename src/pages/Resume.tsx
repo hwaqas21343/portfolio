@@ -52,15 +52,15 @@ export default function Resume() {
       <div className="sheet">
         <PageHeader
           eyebrow="Resume"
-          title="Curriculum vitae"
-          lede="Modules, grades, team roles and the detail behind each project on this site."
+          title="My background"
+          lede="Modules, grades, team roles and the details behind each project on this site."
         />
 
         <Section label="Download" title="Full CV">
           <div className="prose">
             <p>
-              One page, PDF. It expands on the six projects here with the
-              specifics an employer or admissions tutor will ask about.
+              Feel free to download my resume and take a look at my experiences.
+              If you want to skip the download, have a read below.
             </p>
           </div>
 

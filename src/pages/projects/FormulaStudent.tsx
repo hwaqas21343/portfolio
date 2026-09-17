@@ -17,7 +17,7 @@ export default function FormulaStudent() {
           <p>
             Formula Student is a competition where university teams design,
             build and race a small single-seater. The chassis is the part
-            everything else bolts to: it has to be stiff enough that the
+            everything else bolts to. It has to be stiff enough that the
             suspension behaves predictably, light enough not to waste the
             engine&apos;s work and strong enough to protect the driver, all
             while satisfying a rulebook that dictates tube diameters, wall
@@ -57,7 +57,7 @@ export default function FormulaStudent() {
       deepDive={
         <div className="prose">
           <p>
-            The scope ran wider than the roll cage alone: chassis, suspension
+            The scope ran wider than the roll cage alone, chassis, suspension
             and structural validation, all against a fixed facility and a
             10-month design-to-build window.
           </p>
@@ -82,7 +82,7 @@ export default function FormulaStudent() {
               EV and car in eight years.
             </li>
             <li>
-              <strong>Regulations.</strong> The rules driving the geometry:
+              <strong>Regulations.</strong> The rules driving the geometry,
               main and front hoop placement, bracing requirements and the
               driver templates the frame has to clear.
             </li>
