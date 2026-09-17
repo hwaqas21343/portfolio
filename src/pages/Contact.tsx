@@ -13,7 +13,7 @@ const PROFILES = [
     key: 'linkedin',
     rail: 'Network',
     title: 'LinkedIn',
-    copy: 'The fuller professional history, roles, the Formula Student team and the things that do not fit on one page of CV. The best place to reach me if you would rather not email.',
+    copy: 'The fuller professional history, roles, the Formula Student team and the things that do not fit on one page of a resume. The best place to reach me if you would rather not email.',
     action: 'Open LinkedIn',
     href: CONTACT.linkedin,
     field: 'linkedin',

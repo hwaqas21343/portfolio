@@ -21,7 +21,7 @@ interface Entry {
 
 const ENTRIES: Entry[] = [
   { code: '01', label: 'About', meta: 'Background', to: '/about', kind: 'page' },
-  { code: '02', label: 'Resume', meta: 'CV / PDF', to: '/resume', kind: 'page' },
+  { code: '02', label: 'Resume', meta: 'Resume / PDF', to: '/resume', kind: 'page' },
   { code: '03', label: 'Contact', meta: 'Links', to: '/contact', kind: 'page' },
   ...PROJECTS.map((p, i) => ({
     code: `P/${String(i + 1).padStart(2, '0')}`,

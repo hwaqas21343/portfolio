@@ -56,7 +56,7 @@ export default function Resume() {
           lede="Modules, grades, team roles and the details behind each project on this site."
         />
 
-        <Section label="Download" title="Full CV">
+        <Section label="Download" title="Full resume">
           <div className="prose">
             <p>
               Feel free to download my resume and take a look at my experiences.
@@ -70,7 +70,7 @@ export default function Resume() {
               href={CONTACT.cvPath}
               download={CONTACT.cvFileName}
             >
-              Download CV (PDF)
+              Download resume (PDF)
             </a>
           ) : (
             <p className={styles.pending}>
