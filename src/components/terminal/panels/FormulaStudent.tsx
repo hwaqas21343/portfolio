@@ -56,7 +56,7 @@ export function FormulaStudentDemo() {
           <ChassisViewer />
         </LiveMount>
       </Suspense>
-      <span className={styles.caption}>Drag to orbit · scroll to zoom · rotates on its own when idle</span>
+      <span className={styles.caption}>Drag to orbit · scroll to zoom</span>
     </div>
   );
 }

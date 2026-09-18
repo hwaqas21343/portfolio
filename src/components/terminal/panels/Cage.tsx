@@ -1,7 +1,31 @@
 import RadarViewer from '../../demos/RadarViewer';
+import ImageGallery, { type GalleryImage } from '../ImageGallery';
 import LiveMount from '../LiveMount';
 import { EntryHeader, Rule, TagList } from '../ui';
 import panelStyles from './panels.module.css';
+
+export const CAGE_IMAGES: GalleryImage[] = [
+  {
+    src: '/media/cage/desk-photo.jpg',
+    caption: 'Assembled unit, one of three',
+    alt: 'CAGE radar unit assembled with an ESP32-S3 controller and antennas mounted on its 3D-printed dome housing',
+  },
+  {
+    src: '/media/cage/board-detail.jpg',
+    caption: 'Mid-build, controller and relay board',
+    alt: 'Close-up of the ESP32-S3 controller and antennas charging over USB-C, with a relay board visible through a cutout in the housing below',
+  },
+  {
+    src: '/media/cage/render-label.png',
+    caption: 'CAD render, prototype 2',
+    alt: 'CAD render of the CAGE Prototype 2 housing labelled ESP32-S3 and HLK-LD2450',
+  },
+  {
+    src: '/media/cage/render-angle.png',
+    caption: 'CAD render, reflector plate layout',
+    alt: 'CAD render of the CAGE Prototype 2 housing showing the radar reflector plates mounted around the internal frame',
+  },
+];
 
 export function CageBrief() {
   return (
@@ -47,6 +71,21 @@ export function CageDemo() {
       <span className={panelStyles.caption}>
         Click inside the field to place a target · the sweep will acquire it
       </span>
+    </div>
+  );
+}
+
+interface GalleryDemoProps {
+  index: number;
+  onPick: (index: number) => void;
+}
+
+export function CageImages({ index, onPick }: GalleryDemoProps) {
+  return (
+    <div className={panelStyles.stack12}>
+      <EntryHeader rows={[['DATE', '2026'], ['SOURCE', 'Build photos and CAD renders, prototype 2']]} />
+      <Rule />
+      <ImageGallery images={CAGE_IMAGES} index={index} onPick={onPick} />
     </div>
   );
 }

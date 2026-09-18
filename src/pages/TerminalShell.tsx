@@ -13,15 +13,20 @@ import AboutPanel from '../components/terminal/panels/AboutPanel';
 import ResumePanel from '../components/terminal/panels/ResumePanel';
 import ContactPanel from '../components/terminal/panels/ContactPanel';
 import { AdcsBrief, AdcsDemo } from '../components/terminal/panels/Adcs';
-import { CageBrief, CageDemo } from '../components/terminal/panels/Cage';
+import { CageBrief, CageDemo, CageImages } from '../components/terminal/panels/Cage';
 import { OverseerBrief, OverseerDemo } from '../components/terminal/panels/Overseer';
 import { FormulaStudentBrief, FormulaStudentDemo } from '../components/terminal/panels/FormulaStudent';
 import { GasTurbineBrief, GasTurbineDemo } from '../components/terminal/panels/GasTurbine';
 import styles from './TerminalShell.module.css';
 
 type Level = 'root' | 'projects';
-type Tab = 'brief' | 'demo';
+type Tab = 'brief' | 'demo' | 'images';
 type Focus = 'menu' | 'pane';
+
+interface TabDef {
+  key: Tab;
+  label: string;
+}
 
 const ROOT = [
   { label: 'ABOUT', meta: "FINAL-YEAR AEROSPACE ENGINEERING · CITY ST GEORGE'S, UNIVERSITY OF LONDON" },
@@ -30,19 +35,35 @@ const ROOT = [
   { label: 'PROJECTS', meta: '05 ASSETS · PRESS ENTER TO OPEN', group: true },
 ] as const;
 
-const DEMO_LABEL: Record<ProjectSlug, string> = {
-  'adcs-simulator': 'DEMO',
-  cage: 'DEMO',
-  overseer: 'IMAGES',
-  'formula-student': 'CAD VIEWER',
-  'gas-turbine-ml': 'RESULTS',
+const PROJECT_TABS: Record<ProjectSlug, TabDef[]> = {
+  'adcs-simulator': [
+    { key: 'brief', label: 'BRIEF' },
+    { key: 'demo', label: 'DEMO' },
+  ],
+  cage: [
+    { key: 'brief', label: 'BRIEF' },
+    { key: 'demo', label: 'DEMO' },
+    { key: 'images', label: 'IMAGES' },
+  ],
+  overseer: [
+    { key: 'brief', label: 'BRIEF' },
+    { key: 'demo', label: 'IMAGES' },
+  ],
+  'formula-student': [
+    { key: 'brief', label: 'BRIEF' },
+    { key: 'demo', label: 'CAD VIEWER' },
+  ],
+  'gas-turbine-ml': [
+    { key: 'brief', label: 'BRIEF' },
+    { key: 'demo', label: 'RESULTS' },
+  ],
 };
 
 const ROOT_PATHS = ['/about', '/resume', '/contact'] as const;
 
 function pathForProject(index: number, tab: Tab) {
   const slug = PROJECTS[index].slug;
-  return tab === 'demo' ? `/projects/${slug}?tab=demo` : `/projects/${slug}`;
+  return tab === 'brief' ? `/projects/${slug}` : `/projects/${slug}?tab=${tab}`;
 }
 
 function deriveFromLocation(pathname: string, search: string) {
@@ -52,11 +73,13 @@ function deriveFromLocation(pathname: string, search: string) {
     const slug = projectMatch?.[1];
     const idx = slug ? PROJECTS.findIndex((p) => p.slug === slug) : 0;
     const params = new URLSearchParams(search);
+    const tabParam = params.get('tab');
+    const tab: Tab = tabParam === 'demo' || tabParam === 'images' ? tabParam : 'brief';
     return {
       level: 'projects' as Level,
       rootSel: 3,
       projSel: idx >= 0 ? idx : 0,
-      tab: (params.get('tab') === 'demo' ? 'demo' : 'brief') as Tab,
+      tab,
     };
   }
 
@@ -82,6 +105,7 @@ export default function TerminalShell() {
   const [focus, setFocus] = useState<Focus>('menu');
   const [ov, setOv] = useState(0);
   const [gt, setGt] = useState(0);
+  const [cageImg, setCageImg] = useState(0);
   const [hum, setHumOn] = useState(true);
   const [connTop, setConnTop] = useState(0);
   const [titleBottom, setTitleBottom] = useState(0);
@@ -103,10 +127,11 @@ export default function TerminalShell() {
 
   const project = PROJECTS[projSel];
 
-  const gallery = useCallback((): 'ov' | 'gt' | null => {
-    if (level !== 'projects' || tab !== 'demo') return null;
-    if (project.slug === 'overseer') return 'ov';
-    if (project.slug === 'gas-turbine-ml') return 'gt';
+  const gallery = useCallback((): 'ov' | 'gt' | 'cage' | null => {
+    if (level !== 'projects') return null;
+    if (tab === 'demo' && project.slug === 'overseer') return 'ov';
+    if (tab === 'demo' && project.slug === 'gas-turbine-ml') return 'gt';
+    if (tab === 'images' && project.slug === 'cage') return 'cage';
     return null;
   }, [level, tab, project.slug]);
 
@@ -185,7 +210,8 @@ export default function TerminalShell() {
       if (!key) return;
       click();
       if (key === 'ov') setOv((v) => (v + d + 3) % 3);
-      else setGt((v) => (v + d + 3) % 3);
+      else if (key === 'gt') setGt((v) => (v + d + 3) % 3);
+      else setCageImg((v) => (v + d + 4) % 4);
     },
     [gallery, click],
   );
@@ -241,14 +267,31 @@ export default function TerminalShell() {
       } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         if (level === 'projects') {
           e.preventDefault();
-          setTabAndNavigate(e.key === 'ArrowRight' ? 'demo' : 'brief');
+          const tabs = PROJECT_TABS[project.slug];
+          const idx = tabs.findIndex((t) => t.key === tab);
+          const d = e.key === 'ArrowRight' ? 1 : -1;
+          const next = tabs[(idx + d + tabs.length) % tabs.length];
+          setTabAndNavigate(next.key);
         }
       }
     };
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [focus, level, gallery, cycleGallery, scrollPane, move, enter, back, click, setTabAndNavigate]);
+  }, [
+    focus,
+    level,
+    tab,
+    project.slug,
+    gallery,
+    cycleGallery,
+    scrollPane,
+    move,
+    enter,
+    back,
+    click,
+    setTabAndNavigate,
+  ]);
 
   // ---- connector measurement ----
   const measureTitle = useCallback(() => {
@@ -312,7 +355,7 @@ export default function TerminalShell() {
 
   const title = level === 'root' ? ROOT[rootSel].label : project.title.toUpperCase();
   const showTabs = level === 'projects';
-  const demoLabel = level === 'projects' ? DEMO_LABEL[project.slug] : '';
+  const projectTabs = PROJECT_TABS[project.slug];
 
   const galleryKind = gallery();
   const tabHint =
@@ -321,7 +364,7 @@ export default function TerminalShell() {
         ? '↑ ↓ CHANGE IMAGE · BACKSPACE EXIT'
         : level === 'root'
           ? '↑ ↓ SCROLL · BACKSPACE EXIT'
-          : '← → BRIEF / DEMO · BACKSPACE EXIT'
+          : `← → ${projectTabs.map((t) => t.label).join(' / ')} · BACKSPACE EXIT`
       : 'ENTER OPENS PANEL';
 
   const renderPane = () => {
@@ -330,6 +373,10 @@ export default function TerminalShell() {
       if (rootSel === 1) return <ResumePanel />;
       if (rootSel === 2) return <ContactPanel />;
       return null;
+    }
+
+    if (tab === 'images' && project.slug === 'cage') {
+      return <CageImages index={cageImg} onPick={setCageImg} />;
     }
 
     if (tab === 'brief') {
@@ -451,12 +498,16 @@ export default function TerminalShell() {
 
                 {showTabs ? (
                   <div className={styles.tabRow}>
-                    <div className={styles.tab} data-active={tab === 'brief'} onClick={() => setTabAndNavigate('brief')}>
-                      BRIEF
-                    </div>
-                    <div className={styles.tab} data-active={tab === 'demo'} onClick={() => setTabAndNavigate('demo')}>
-                      {demoLabel}
-                    </div>
+                    {projectTabs.map((t) => (
+                      <div
+                        key={t.key}
+                        className={styles.tab}
+                        data-active={tab === t.key}
+                        onClick={() => setTabAndNavigate(t.key)}
+                      >
+                        {t.label}
+                      </div>
+                    ))}
                   </div>
                 ) : null}
 
