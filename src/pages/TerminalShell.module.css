@@ -1,0 +1,318 @@
+.desk {
+  height: 100vh;
+  padding: clamp(8px, 1.6vw, 22px);
+  box-sizing: border-box;
+  background: radial-gradient(120% 90% at 50% 0%, var(--bezel), var(--desk));
+  overflow: hidden;
+}
+
+.bezel {
+  height: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: clamp(8px, 1.2vw, 16px);
+  box-sizing: border-box;
+  background: var(--bezel);
+  box-shadow:
+    inset 0 0 0 1px var(--bezel-border),
+    0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+.screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: var(--screen);
+  box-shadow:
+    inset 0 0 0 2px #0b3d1d,
+    inset 0 0 110px 34px rgba(0, 0, 0, 0.55);
+}
+
+/* CRT overlay — a child of .content (not a sibling of it) so normal-flow
+   text and UI sit under it, while anything that opts in with a higher
+   z-index (image plates, thumbnails) can still paint above it. A sibling
+   of .content could never be out-stacked from inside, no matter what
+   z-index its descendants used. */
+
+.crt {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.crtScan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 1px, rgba(0, 0, 0, 0) 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+.crtBloom {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 40%, #3ef07c14 0%, rgba(0, 0, 0, 0) 55%),
+    radial-gradient(130% 100% at 50% 50%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.32) 100%);
+  opacity: 0.7;
+  animation: crtFlicker 5.5s steps(1) infinite;
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  padding: clamp(10px, 1.2vw, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+/* title bar */
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--phosphor);
+  padding: 6px 12px;
+  flex: none;
+}
+
+.titleBarName {
+  font: 600 clamp(11px, 1.1vw, 14px)/1 var(--font);
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.humToggle {
+  font: 500 11px/1 var(--font);
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.titleBarDot {
+  width: 14px;
+  height: 14px;
+  background: var(--ink);
+  flex: none;
+}
+
+/* grid */
+
+.grid {
+  display: grid;
+  grid-template-columns: 288px 1fr;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.folderCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 2px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.folderLabel {
+  flex: none;
+  font: 500 11px/1 var(--font);
+  letter-spacing: 0.2em;
+  color: var(--phosphor);
+  margin: 8px 0 6px;
+}
+
+.folderItem {
+  flex: none;
+  position: relative;
+  min-height: 88px;
+  padding: 13px 15px;
+  font: 500 15px/1.3 var(--font);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: color 90ms linear;
+  color: var(--phosphor);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--phosphor-mid);
+}
+
+.folderItem[data-group='true'] {
+  margin-top: 16px;
+}
+
+.folderItem[data-selected='true'] {
+  background: var(--selected-fill);
+  color: var(--white);
+  box-shadow: inset 0 0 0 3px var(--white);
+}
+
+.folderItem[data-selected='true'][data-dimmed='true'] {
+  box-shadow: inset 0 0 0 2px var(--phosphor-pale);
+}
+
+.backRow {
+  flex: none;
+  padding: 12px 15px;
+  font: 500 12px/1 var(--font);
+  letter-spacing: 0.14em;
+  color: var(--phosphor-pale);
+  box-shadow: inset 0 0 0 1px var(--phosphor-mid);
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+.folderFooter {
+  flex: none;
+  margin-top: auto;
+  padding: 14px 0 2px;
+  font: 400 10px/1.7 var(--font);
+  letter-spacing: 0.1em;
+  color: var(--phosphor-pale);
+  white-space: nowrap;
+}
+
+/* right column */
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: var(--gap);
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.connLeg {
+  position: absolute;
+  left: 0;
+  width: calc(var(--gap) / 2);
+  pointer-events: none;
+}
+
+.connStub {
+  position: absolute;
+  left: calc(var(--gap) / 2);
+  width: calc(var(--gap) / 2);
+  height: 0;
+  pointer-events: none;
+}
+
+.titleBox {
+  flex: none;
+  padding: clamp(16px, 1.8vw, 24px);
+  box-shadow: inset 0 0 0 2px var(--phosphor-bright);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 18px;
+}
+
+.titleBoxText {
+  font: 600 clamp(22px, 2.6vw, 34px)/1.05 var(--font);
+  letter-spacing: 0.06em;
+  color: var(--white);
+}
+
+.tabRow {
+  flex: none;
+  display: flex;
+  gap: 8px;
+}
+
+.tab {
+  padding: 9px 18px;
+  font: 600 12px/1 var(--font);
+  letter-spacing: 0.14em;
+  color: var(--phosphor);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--phosphor-mid);
+  cursor: pointer;
+}
+
+.tab[data-active='true'] {
+  background: var(--phosphor);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+.pane {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--phosphor);
+}
+
+/* Scrolls independently of .paneRing below, so the focus outline stays put
+   against the panel edges instead of travelling with the scrolled content. */
+.paneScroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(16px, 1.8vw, 22px) clamp(16px, 2vw, 24px) clamp(18px, 2vw, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font: 400 clamp(13px, 1.15vw, 14.5px)/1.75 var(--font);
+  color: var(--body);
+}
+
+.paneRing {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.paneRing[data-active='true'] {
+  box-shadow: inset 0 0 0 2px var(--white);
+}
+
+/* keybind bar */
+
+.keybinds {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 26px;
+  padding: 6px 0 2px;
+  font: 500 clamp(10px, 1vw, 12px)/1 var(--font);
+  letter-spacing: 0.1em;
+  color: var(--phosphor-bright);
+}
+
+.keybinds .easterEgg {
+  color: var(--phosphor-mid);
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, auto) minmax(0, 1fr);
+  }
+
+  .folderCol {
+    max-height: 260px;
+  }
+
+  .right {
+    padding-left: 0;
+  }
+
+  .connLeg,
+  .connStub {
+    display: none;
+  }
+}

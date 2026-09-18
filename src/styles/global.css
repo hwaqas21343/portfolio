@@ -1,97 +1,29 @@
-/* design tokens */
+/* design tokens — Sevastolink terminal */
 
 :root {
-  --bg: #e4e8e3;
-  --bg-2: #eef1ed;
+  --screen: #010e05;
+  --panel: #011a0c;
+  --selected-fill: #0a3018;
 
-  --panel: #ffffff;
-  --panel-2: #f4f7f3;
+  --phosphor: #3ef07c;
+  --phosphor-bright: #7dffb5;
+  --phosphor-mid: #2e8f56;
+  --phosphor-pale: #8ad9a9;
+  --body: #c7ffe0;
+  --white: #ffffff;
+  --ink: #010e05;
 
-  --fg: #14181b;
-  --fg-dim: #4c5459;
-  --fg-faint: #878f94;
+  --bezel: #232421;
+  --bezel-border: #3a3b37;
+  --desk: #141613;
+  --image-ground: #000000;
 
-  --acid: #c3f53c;
-  --acid-deep: #93c800;
-  --acid-wash: rgba(195, 245, 60, 0.18);
+  --danger: #ff4d3d;
 
-  --magenta: #ff2e9a;
-  --orange: #ff5a1f;
-  --teal: #0fb5a8;
-  --teal-deep: #0a8f85;
+  --font: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', Consolas, monospace;
 
-  --rule: #d5dad4;
-  --rule-soft: #e6eae5;
-
-  --overlay-tint: rgba(255, 255, 255, 0.8);
-
-  /* Fixed dark ink for marks and text sitting directly on the acid/teal
-     accent fills, which stay the same bright colour in both themes. --fg
-     flips with the theme and would lose contrast against them in dark
-     mode, so this is deliberately not overridden there. */
-  --ink: #14171a;
-
-  --font-display: 'Manrope', ui-sans-serif, system-ui, 'Segoe UI', Roboto,
-    sans-serif;
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, 'Segoe UI', Roboto,
-    sans-serif;
-  --font-mono: 'Space Mono', ui-monospace, 'Cascadia Mono', 'Segoe UI Mono',
-    Consolas, monospace;
-
-  --s-1: 0.25rem;
-  --s-2: 0.5rem;
-  --s-3: 0.75rem;
-  --s-4: 1rem;
-  --s-5: 1.5rem;
-  --s-6: 2rem;
-  --s-7: 3rem;
-  --s-8: 4rem;
-  --s-9: 6rem;
-
-  --r-xs: 2px;
-  --r-sm: 2px;
-  --r: 2px;
-  --r-lg: 3px;
-  --r-xl: 3px;
-  --r-pill: 2px;
-
-  --lift-sm:
-    0 1px 2px rgba(20, 24, 27, 0.06), 0 2px 6px rgba(20, 24, 27, 0.05);
-  --lift:
-    0 2px 4px rgba(20, 24, 27, 0.05), 0 10px 28px rgba(20, 24, 27, 0.09);
-  --lift-lg:
-    0 4px 10px rgba(20, 24, 27, 0.06), 0 26px 60px rgba(20, 24, 27, 0.13);
-
-  --gutter: clamp(1.25rem, 5vw, 3.5rem);
-  --measure: 64ch;
-
-  color-scheme: light;
+  --gap: clamp(16px, 2.2vw, 30px);
 }
-
-:root[data-theme='dark'] {
-  --bg: #14171a;
-  --bg-2: #1a1e21;
-
-  --panel: #1e2226;
-  --panel-2: #262b2f;
-
-  --fg: #eef1ec;
-  --fg-dim: #a7aeb0;
-  --fg-faint: #6f767a;
-
-  --rule: #33393d;
-  --rule-soft: #282d31;
-
-  --overlay-tint: rgba(20, 23, 26, 0.72);
-
-  --lift-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
-  --lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 10px 28px rgba(0, 0, 0, 0.45);
-  --lift-lg: 0 4px 10px rgba(0, 0, 0, 0.4), 0 26px 60px rgba(0, 0, 0, 0.55);
-
-  color-scheme: dark;
-}
-
-/* reset */
 
 *,
 *::before,
@@ -99,106 +31,27 @@
   box-sizing: border-box;
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
+html,
+body {
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
   margin: 0;
-  overflow-wrap: break-word;
-  background-color: var(--bg);
-  background-image:
-    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj4KPHJlY3QgeD0iOCIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwZmI1YTgiIGZpbGwtb3BhY2l0eT0iMC40MiIvPgo8cmVjdCB4PSIxNiIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwZmI1YTgiIGZpbGwtb3BhY2l0eT0iMC40MiIvPgo8cmVjdCB4PSIxMiIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwZmI1YTgiIGZpbGwtb3BhY2l0eT0iMC40MiIvPgo8cmVjdCB4PSIyMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwZmI1YTgiIGZpbGwtb3BhY2l0eT0iMC40MiIvPgo8cmVjdCB4PSI2MiIgeT0iMjIiIHdpZHRoPSIxMiIgaGVpZ2h0PSI0IiBmaWxsPSIjZmYyZTlhIiBmaWxsLW9wYWNpdHk9IjAuMzYiLz4KPHJlY3QgeD0iNjIiIHk9IjMwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmYyZTlhIiBmaWxsLW9wYWNpdHk9IjAuMzYiLz4KPHJlY3QgeD0iNzAiIHk9IjMwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmYyZTlhIiBmaWxsLW9wYWNpdHk9IjAuMzYiLz4KPHJlY3QgeD0iOTAiIHk9IjY2IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjOTNjODAwIiBmaWxsLW9wYWNpdHk9IjAuNDgiLz4KPHJlY3QgeD0iOTQiIHk9IjY2IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjOTNjODAwIiBmaWxsLW9wYWNpdHk9IjAuNDgiLz4KPHJlY3QgeD0iOTAiIHk9IjcwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjOTNjODAwIiBmaWxsLW9wYWNpdHk9IjAuNDgiLz4KPHJlY3QgeD0iOTgiIHk9IjcwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjOTNjODAwIiBmaWxsLW9wYWNpdHk9IjAuNDgiLz4KPHJlY3QgeD0iMjIiIHk9Ijg4IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmY1YTFmIiBmaWxsLW9wYWNpdHk9IjAuMzYiLz4KPHJlY3QgeD0iMzAiIHk9Ijg4IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmY1YTFmIiBmaWxsLW9wYWNpdHk9IjAuMzYiLz4KPHJlY3QgeD0iMjYiIHk9IjkyIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmY1YTFmIiBmaWxsLW9wYWNpdHk9IjAuMzYiLz4KPHJlY3QgeD0iNDYiIHk9IjEwMCIgd2lkdGg9IjQiIGhlaWdodD0iMTIiIGZpbGw9IiMwZmI1YTgiIGZpbGwtb3BhY2l0eT0iMC4zIi8+CjxyZWN0IHg9IjUwIiB5PSIxMDQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwZmI1YTgiIGZpbGwtb3BhY2l0eT0iMC4zIi8+CjxyZWN0IHg9IjEwMCIgeT0iNCIgd2lkdGg9IjQiIGhlaWdodD0iNCIgZmlsbD0iIzkzYzgwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz4KPHJlY3QgeD0iMTA0IiB5PSI4IiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjOTNjODAwIiBmaWxsLW9wYWNpdHk9IjAuNCIvPgo8L3N2Zz4='),
-    radial-gradient(circle, var(--rule) 1px, transparent 1.4px),
-    radial-gradient(120% 80% at 50% 0%, var(--bg-2) 0%, var(--bg) 62%);
-  background-size:
-    120px 120px,
-    22px 22px,
-    100% 100%;
-  background-repeat: repeat, repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed;
-  color: var(--fg);
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.6;
+  background: var(--desk);
+  color: var(--phosphor);
+  font-family: var(--font);
   -webkit-font-smoothing: antialiased;
-  transition:
-    background-color 220ms ease,
-    color 220ms ease;
-  cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNCAyIEw0IDIwLjUgTDguNSAxNi41IEwxMS41IDIyLjUgTDE0IDIxLjUgTDExIDE1LjUgTDE3IDE1LjUgWiIgZmlsbD0iIzE0MTgxYiIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')
-    4 2,
-    auto;
-}
-
-:root[data-theme='dark'] body {
-  cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNCAyIEw0IDIwLjUgTDguNSAxNi41IEwxMS41IDIyLjUgTDE0IDIxLjUgTDExIDE1LjUgTDE3IDE1LjUgWiIgZmlsbD0iI2VlZjFlYyIgc3Ryb2tlPSIjMTQxNzFhIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')
-    4 2,
-    auto;
-}
-
-a,
-button,
-[role='button'],
-[role='tab'],
-input,
-select,
-textarea,
-label {
-  cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNCAyIEw0IDIwLjUgTDguNSAxNi41IEwxMS41IDIyLjUgTDE0IDIxLjUgTDExIDE1LjUgTDE3IDE1LjUgWiIgZmlsbD0iI2MzZjUzYyIgc3Ryb2tlPSIjMTQxODFiIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')
-    4 2,
-    pointer;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-
-h1 {
-  font-size: clamp(1.5rem, 3vw, 2.1rem);
-}
-
-h2 {
-  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
-}
-
-h3 {
-  font-size: 1rem;
-  letter-spacing: -0.02em;
-}
-
-p {
-  margin: 0;
-  text-wrap: pretty;
 }
 
 a {
-  color: inherit;
+  color: var(--phosphor);
   text-decoration: none;
 }
 
-ul,
-ol {
-  margin: 0;
-  padding: 0;
-}
-
-img,
-svg,
-canvas {
-  display: block;
-  max-width: 100%;
-}
-
-figure {
-  margin: 0;
+a:hover {
+  color: #c8ffdd;
 }
 
 button {
@@ -209,62 +62,56 @@ button {
   cursor: pointer;
 }
 
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
 :focus-visible {
-  outline: 2px solid var(--acid-deep);
-  outline-offset: 3px;
-  border-radius: var(--r-xs);
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
 }
 
-::selection {
-  background: var(--acid);
-  color: var(--ink);
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-/* shared primitives */
-
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+::-webkit-scrollbar-thumb {
+  background: var(--phosphor-mid);
 }
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
+::-webkit-scrollbar-track {
+  background: var(--screen);
 }
 
-.prose {
-  max-width: var(--measure);
-  color: var(--fg-dim);
+@keyframes crtFlicker {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  47% {
+    opacity: 0.62;
+  }
+  48% {
+    opacity: 0.34;
+  }
+  49% {
+    opacity: 0.58;
+  }
+  82% {
+    opacity: 0.44;
+  }
 }
 
-.prose > * + * {
-  margin-top: var(--s-4);
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.sheet {
-  background: var(--panel);
-  color: var(--fg);
-  border-radius: var(--r-lg);
-  box-shadow: var(--lift);
-  padding: var(--s-6);
-  margin-block: var(--s-5) var(--s-8);
+@keyframes crtRoll {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,11 +2,13 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Center, ContactShadows, OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import { useTheme } from '../../hooks/useTheme';
 import styles from './ChassisViewer.module.css';
 
 const MODEL_URL = '/models/chassis.glb';
 const IDLE_DELAY = 2500;
+
+const HULL_MATERIAL = new THREE.MeshBasicMaterial({ color: '#020a05' });
+const EDGE_MATERIAL = new THREE.LineBasicMaterial({ color: '#3ef07c' });
 
 function Frame() {
   const { scene } = useGLTF(MODEL_URL);
@@ -14,18 +16,18 @@ function Frame() {
   const model = useMemo(() => {
     const root = scene.clone(true);
 
-    const steel = new THREE.MeshStandardMaterial({
-      color: '#2b2f35',
-      metalness: 0.28,
-      roughness: 0.46,
+    const meshes: THREE.Mesh[] = [];
+    root.traverse((child) => {
+      if (child instanceof THREE.Mesh) meshes.push(child);
     });
 
-    root.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.material = steel;
-        child.castShadow = true;
-        child.receiveShadow = true;
-      }
+    meshes.forEach((mesh) => {
+      mesh.material = HULL_MATERIAL;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+
+      const edges = new THREE.EdgesGeometry(mesh.geometry, 25);
+      mesh.add(new THREE.LineSegments(edges, EDGE_MATERIAL));
     });
 
     return root;
@@ -36,31 +38,16 @@ function Frame() {
 
 useGLTF.preload(MODEL_URL);
 
-function Lighting({ dark }: { dark: boolean }) {
+function Lighting() {
   return (
     <>
-      <hemisphereLight
-        args={dark ? ['#4a5258', '#0c0e10', 1.4] : ['#ffffff', '#b3d2e6', 1.7]}
-      />
-
-      <directionalLight
-        position={[4, 6, 4]}
-        intensity={dark ? 2.6 : 2.2}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0004}
-      />
-
-      <directionalLight position={[-5, 2, -2]} intensity={0.8} />
-
-      <directionalLight position={[0, 3, -6]} intensity={1.1} color="#ff6a1a" />
+      <hemisphereLight args={['#0f3a1e', '#010401', 1.2]} />
+      <directionalLight position={[4, 6, 4]} intensity={1.4} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
     </>
   );
 }
 
 export default function ChassisViewer() {
-  const { theme } = useTheme();
-  const dark = theme === 'dark';
   const [autoRotate, setAutoRotate] = useState(true);
   const [engaged, setEngaged] = useState(false);
   const idleTimer = useRef<number | undefined>(undefined);
@@ -125,8 +112,8 @@ export default function ChassisViewer() {
         gl={{ antialias: true }}
         frameloop={awake && (autoRotate || engaged) ? 'always' : 'demand'}
       >
-        <color attach="background" args={[dark ? '#14171a' : '#e4e5de']} />
-        <Lighting dark={dark} />
+        <color attach="background" args={['#04220f']} />
+        <Lighting />
 
         <Suspense fallback={null}>
           <Center>
@@ -135,12 +122,12 @@ export default function ChassisViewer() {
 
           <ContactShadows
             position={[0, -0.62, 0]}
-            opacity={dark ? 0.55 : 0.32}
+            opacity={0.6}
             scale={6}
             blur={2.4}
             far={2}
             resolution={512}
-            color={dark ? '#000000' : '#1b3242'}
+            color="#000000"
           />
         </Suspense>
 
